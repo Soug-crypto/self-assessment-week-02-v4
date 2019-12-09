@@ -10,9 +10,14 @@ var SERVER_URL = 'http://parse.shared.hackreactor.com/chatterbox/classes/message
 
 //This one calls the Parse server to grab data, and sends it to processData
 var getData = function() {
-  $.ajax(SERVER_URL + '?order=-createdAt', {
+  $.ajax({
+    url: SERVER_URL ,
+    type: 'GET',
+    Data: { },
+    // order:  data.results.createdAt
     contentType: 'application/json',
     success: function(data) {
+      console.log(data)
       processData(data); // eslint-disable-line no-use-before-define
     },
     error: function(data) {
@@ -111,10 +116,32 @@ var postData = function(message, username) {
     type: 'POST',
     data: JSON.stringify({
       username: username,
-      text: message
+      text: message,
+      roomname:'lobby'
     }),
+    //room name was  not being sent,
     success: function(data) {
       console.log('Success!', data);
+
+
+      //add the attributes recieved from the server to to data and so call display then reset input val
+      // for ex:
+      // data.objectId: "SBFB7DF76v"
+      // data.createdAt: "2019-12-09T08:52:58.224Z"
+      // displayData(data,$('.userName').val())
+
+      // var $input = $('.userInput').val();
+      // $('.userInput').val('');
+      // $('.userName').val('')
+
+
+
+
+
+
+
+
+      // $('ul').prepend('<li class='+$user+'><a>'+$user+'</a><p>'+$input+'</p></li>')
     },
     error: function(data) {
       console.log(data);
